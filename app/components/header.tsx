@@ -1,90 +1,49 @@
-import * as React from 'react'
-import { LaptopIcon, MoonIcon, SunIcon } from '@radix-ui/react-icons'
+import { useCallback, useEffect, useState } from 'react'
+import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
 import { Link } from '@remix-run/react'
 import { useHydrated } from 'remix-utils/use-hydrated'
 import {
   getTheme,
   setTheme as setSystemTheme,
+  type Theme,
 } from '@/components/theme-switcher'
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+import { Separator } from '@/components/ui/separator'
+import { SidebarTrigger } from '@/components/ui/sidebar'
 
 export function Header() {
   const hydrated = useHydrated()
-  const [, rerender] = React.useState({})
-  const setTheme = React.useCallback((theme: string) => {
+  const [theme, setThemeState] = useState(getTheme())
+
+  const setTheme = useCallback((theme: string) => {
     setSystemTheme(theme)
-    rerender({})
+    setThemeState(theme as Theme)
   }, [])
-  const theme = getTheme()
+
+  useEffect(() => {
+    setThemeState(getTheme())
+  }, [])
 
   return (
-    <header className="flex items-center justify-between px-4 py-2 md:py-4">
-      <div className="flex items-center space-x-4">
+    <header className="flex h-14 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+      <div className="flex items-center gap-2 px-4">
+        <SidebarTrigger className="-ml-1" />
+        <Separator orientation="vertical" className="mr-2 h-4" />
         <Link className="flex items-center space-x-2" to="/">
-          {/* <HomeIcon className="h-6 w-6" /> */}
           <span className="text-lg font-bold">shadcn</span>
         </Link>
       </div>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            className="h-10 w-10 rounded-full border"
-            size="icon"
-            variant="ghost"
-          >
-            <span className="sr-only">Theme selector</span>
-            {!hydrated ? null : theme === 'dark' ? (
-              <MoonIcon />
-            ) : theme === 'light' ? (
-              <SunIcon />
-            ) : (
-              <LaptopIcon />
-            )}
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="mt-2">
-          <DropdownMenuLabel>Theme</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem asChild>
-            <button
-              type="button"
-              className="w-full"
-              onClick={() => setTheme('light')}
-              aria-selected={theme === 'light'}
-            >
-              Light
-            </button>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <button
-              type="button"
-              className="w-full"
-              onClick={() => setTheme('dark')}
-              aria-selected={theme === 'dark'}
-            >
-              Dark
-            </button>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <button
-              type="button"
-              className="w-full"
-              onClick={() => setTheme('system')}
-              aria-selected={theme === 'system'}
-            >
-              System
-            </button>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <div className="flex items-end gap-2 px-4 ml-auto">
+        <Button
+          className="h-10 w-10 transform rounded-full border transition-transform hover:scale-105 active:scale-95"
+          size="icon"
+          variant="ghost"
+          onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+        >
+          <span className="sr-only">Theme selector</span>
+          {!hydrated ? null : theme === 'dark' ? <MoonIcon /> : <SunIcon />}
+        </Button>
+      </div>
     </header>
   )
 }

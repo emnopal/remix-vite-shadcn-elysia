@@ -6,10 +6,10 @@ function lightDarkVar(baseName: string) {
 module.exports = {
 	darkMode: ["class"],
 	content: [
-		"./pages/**/*.{ts,tsx}",
-		"./components/**/*.{ts,tsx}",
-		"./app/**/*.{ts,tsx}",
-		"./src/**/*.{ts,tsx}",
+		"./pages/**/*.{js,ts,jsx,tsx}",
+		"./components/**/*.{js,ts,jsx,tsx}",
+		"./app/**/*.{js,ts,jsx,tsx}",
+		"./src/**/*.{js,ts,jsx,tsx}",
 	],
 	prefix: "",
 	theme: {
@@ -54,6 +54,16 @@ module.exports = {
 				card: {
 					DEFAULT: lightDarkVar("card"),
 					foreground: lightDarkVar("card-foreground"),
+				},
+        sidebar: {
+					DEFAULT: lightDarkVar("sidebar-background"),
+					foreground: lightDarkVar("sidebar-foreground"),
+          primary: lightDarkVar("sidebar-primary"),
+          'primary-foreground': lightDarkVar("sidebar-primary-foreground"),
+          accent: lightDarkVar("sidebar-accent"), 
+          'accent-foreground': lightDarkVar("sidebar-accent-foreground"),
+          border: lightDarkVar("sidebar-border"),
+          ring: lightDarkVar("sidebar-ring"),
 				},
 			},
 			borderRadius: {
