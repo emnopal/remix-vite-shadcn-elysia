@@ -2,7 +2,7 @@ import { createRemixStub } from '@remix-run/testing'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { expect, test } from 'vitest'
-import Counter, { action, loader } from './counter'
+import Counter, { action, loader } from './_route'
 
 test('counter increments when clicked', async () => {
   const App = createRemixStub([

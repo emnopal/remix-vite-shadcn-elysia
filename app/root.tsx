@@ -8,7 +8,6 @@ import {
   ScrollRestoration,
 } from '@remix-run/react'
 import { GlobalPendingIndicator } from '@/components/global-pending-indicator'
-import AppSidebar from '@/components/sidebar'
 import {
   ThemeSwitcherSafeHTML,
   ThemeSwitcherScript,
@@ -34,9 +33,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <GlobalPendingIndicator />
         <ScrollRestoration />
         <Scripts />
-        <AppSidebar>
-          {children}
-        </AppSidebar>
+        {children}
       </body>
     </ThemeSwitcherSafeHTML>
   )
